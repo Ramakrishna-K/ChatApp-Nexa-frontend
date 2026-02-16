@@ -1,217 +1,33 @@
-// import { useState } from "react";
-// import { Link } from "react-router";
-// import { MessageCircle, Send } from "lucide-react";
-
-// import useSignUp from "../hooks/useSignUp";
-
-// const SignUpPage = () => {
-//   const [signupData, setSignupData] = useState({
-//     fullName: "",
-//     email: "",
-//     password: "",
-//   });
-
-//   // This is how we did it at first, without using our custom hook
-//   // const queryClient = useQueryClient();
-//   // const {
-//   //   mutate: signupMutation,
-//   //   isPending,
-//   //   error,
-//   // } = useMutation({
-//   //   mutationFn: signup,
-//   //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
-//   // });
-
-//   // This is how we did it using our custom hook - optimized version
-//   const { isPending, error, signupMutation } = useSignUp();
-
-//   const handleSignup = (e) => {
-//     e.preventDefault();
-//     signupMutation(signupData);
-//   };
-
-//   return (
-//     <div
-//       className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#1385d6] to-[#4ca0ddd8] p-4"
-//       data-theme="forest"
-//     >
-//       <div className="border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden bg-blue-300">
-//         {/* SIGNUP FORM - LEFT SIDE */}
-//         <div className="w-full lg:w-1/2 p-4 sm:p-8 flex flex-col">
-//           {/* LOGO */}
-//           <div className="mb-4 flex items-center justify-start gap-2">
-//             <div className="relative">
-//               <MessageCircle className="size-9 text-primary" />
-//             </div>
-
-//             <span className="text-3xl font-bold font-mono bg-clip-text text-black bg-gradient-to-r from-primary to-secondary tracking-wider">
-//               Nexa
-//             </span>
-//           </div>
-
-//           {/* ERROR MESSAGE IF ANY */}
-//           {error && (
-//             <div className="alert alert-error mb-4">
-//               <span>{error.response.data.message}</span>
-//             </div>
-//           )}
-
-//           <div className="w-full">
-//             <form onSubmit={handleSignup}>
-//               <div className="space-y-4">
-//                 <div>
-//                   <h2 className="text-xl font-semibold">Create an Account</h2>
-//                   <p className="text-sm opacity-70">
-//                     Join Nexa and start your language learning adventure!
-//                   </p>
-//                 </div>
-
-//                 <div className="space-y-3">
-//                   {/* FULLNAME */}
-//                   <div className="form-control w-full">
-//                     <label className="label">
-//                       <span className="label-text">Full Name</span>
-//                     </label>
-//                     <input
-//                       type="text"
-//                       placeholder=" Ramakrishna "
-//                       className="input input-bordered w-full rounded-sm bg-blue-100"
-//                       value={signupData.fullName}
-//                       onChange={(e) => setSignupData({ ...signupData, fullName: e.target.value })}
-//                       required
-//                     />
-//                   </div>
-//                   {/* EMAIL */}
-//                   <div className="form-control w-full">
-//                     <label className="label">
-//                       <span className="label-text">Email</span>
-//                     </label>
-//                     <input
-//                       type="email"
-//                       placeholder=" ram@gmail.com"
-//                       className="input input-bordered w-full rounded-sm bg-blue-100"
-//                       value={signupData.email}
-//                       onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
-//                       required
-//                     />
-//                   </div>
-//                   {/* PASSWORD */}
-//                   <div className="form-control w-full">
-//                     <label className="label">
-//                       <span className="label-text">Password</span>
-//                     </label>
-//                     <input
-//                       type="password"
-//                       placeholder=" ********"
-//                       className="input input-bordered w-full rounded-sm bg-blue-100"
-//                       value={signupData.password}
-//                       onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
-//                       required
-//                     />
-//                     <p className="text-xs opacity-70 mt-1">
-//                       Password must be at least 6 characters long
-//                     </p>
-//                   </div>
-
-//                   <div className="form-control">
-//                     <label className="label cursor-pointer justify-start gap-2">
-//                       <input type="checkbox" className="checkbox checkbox-sm" required />
-//                       <span className="text-xs leading-tight">
-//                         I agree to the{" "}
-//                         <span className="text-primary hover:underline">terms of service</span> and{" "}
-//                         <span className="text-primary hover:underline">privacy policy</span>
-//                       </span>
-//                     </label>
-//                   </div>
-//                 </div>
-
-//                 <button className="btn btn-primary w-full rounded-sm bg-green-300 hover:bg-green-400 shadow-sm hover:shadow-lg" type="submit">
-//                   {isPending ? (
-//                     <>
-//                       <span className="loading loading-spinner loading-xs"></span>
-//                       Loading...
-//                     </>
-//                   ) : (
-//                     "Create Account"
-//                   )}
-//                 </button>
-
-//                 <div className="text-center mt-4">
-//                   <p className="text-sm">
-//                     Already have an account?{" "}
-//                     <Link to="/login" className="hover:underline text-black hover:text-blue-500 transition-colors duration-300">
-//                       Log In
-//                     </Link>
-//                   </p>
-//                 </div>
-//               </div>
-//             </form>
-//           </div>
-//         </div>
-
-//         {/* SIGNUP FORM - RIGHT SIDE */}
-//         <div className="hidden lg:flex w-full lg:w-1/2 bg-primary/10 items-center justify-center">
-//           <div className="max-w-md p-8">
-//             {/* Illustration */}
-//             <div className="relative aspect-square max-w-sm mx-auto">
-//               <img src="/i.png" alt="Language connection illustration" className="w-full h-full" />
-//             </div>
-
-//             <div className="text-center space-y-3 mt-6">
-//               <h2 className="text-xl font-semibold">Connect with language partners worldwide</h2>
-//               <p className="opacity-70">
-//                 Practice conversations, make friends, and improve your language skills together
-//               </p>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default SignUpPage;
-
-
-
-
-
 import { useState } from "react";
 import { Link } from "react-router";
-import { MessageCircle } from "lucide-react";
-import { signup } from "../lib/api.js"; // direct API import
+import { MessageCircle, Send } from "lucide-react";
+
+import useSignUp from "../hooks/useSignUp";
 
 const SignUpPage = () => {
-  const [formData, setFormData] = useState({
+  const [signupData, setSignupData] = useState({
     fullName: "",
     email: "",
     password: "",
   });
 
-  const [isPending, setIsPending] = useState(false);
-  const [error, setError] = useState("");
+  // This is how we did it at first, without using our custom hook
+  // const queryClient = useQueryClient();
+  // const {
+  //   mutate: signupMutation,
+  //   isPending,
+  //   error,
+  // } = useMutation({
+  //   mutationFn: signup,
+  //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
+  // });
 
-  const handleSignup = async (e) => {
+  // This is how we did it using our custom hook - optimized version
+  const { isPending, error, signupMutation } = useSignUp();
+
+  const handleSignup = (e) => {
     e.preventDefault();
-    setIsPending(true);
-    setError("");
-
-    try {
-      const res = await signup({
-        name: formData.fullName,
-        email: formData.email,
-        password: formData.password,
-      });
-      console.log("Signup Success:", res);
-      alert("Signup successful!");
-      // Optional: redirect to login page
-      // navigate("/login");
-    } catch (err) {
-      console.error(err.response?.data || err.message);
-      setError(err.response?.data?.message || err.message);
-    } finally {
-      setIsPending(false);
-    }
+    signupMutation(signupData);
   };
 
   return (
@@ -224,7 +40,10 @@ const SignUpPage = () => {
         <div className="w-full lg:w-1/2 p-4 sm:p-8 flex flex-col">
           {/* LOGO */}
           <div className="mb-4 flex items-center justify-start gap-2">
-            <MessageCircle className="size-9 text-primary" />
+            <div className="relative">
+              <MessageCircle className="size-9 text-primary" />
+            </div>
+
             <span className="text-3xl font-bold font-mono bg-clip-text text-black bg-gradient-to-r from-primary to-secondary tracking-wider">
               Nexa
             </span>
@@ -233,7 +52,7 @@ const SignUpPage = () => {
           {/* ERROR MESSAGE IF ANY */}
           {error && (
             <div className="alert alert-error mb-4">
-              <span>{error}</span>
+              <span>{error.response.data.message}</span>
             </div>
           )}
 
@@ -255,16 +74,13 @@ const SignUpPage = () => {
                     </label>
                     <input
                       type="text"
-                      placeholder="Ramakrishna"
+                      placeholder=" Ramakrishna "
                       className="input input-bordered w-full rounded-sm bg-blue-100"
-                      value={formData.fullName}
-                      onChange={(e) =>
-                        setFormData({ ...formData, fullName: e.target.value })
-                      }
+                      value={signupData.fullName}
+                      onChange={(e) => setSignupData({ ...signupData, fullName: e.target.value })}
                       required
                     />
                   </div>
-
                   {/* EMAIL */}
                   <div className="form-control w-full">
                     <label className="label">
@@ -272,17 +88,13 @@ const SignUpPage = () => {
                     </label>
                     <input
                       type="email"
-                      placeholder="ram@gmail.com"
+                      placeholder=" ram@gmail.com"
                       className="input input-bordered w-full rounded-sm bg-blue-100"
-                      value={formData.email}
-                      onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
-                      }
+                      value={signupData.email}
+                      onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
                       required
-                      autoComplete="email"
                     />
                   </div>
-
                   {/* PASSWORD */}
                   <div className="form-control w-full">
                     <label className="label">
@@ -290,39 +102,30 @@ const SignUpPage = () => {
                     </label>
                     <input
                       type="password"
-                      placeholder="********"
+                      placeholder=" ********"
                       className="input input-bordered w-full rounded-sm bg-blue-100"
-                      value={formData.password}
-                      onChange={(e) =>
-                        setFormData({ ...formData, password: e.target.value })
-                      }
+                      value={signupData.password}
+                      onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
                       required
-                      autoComplete="current-password"
                     />
                     <p className="text-xs opacity-70 mt-1">
                       Password must be at least 6 characters long
                     </p>
                   </div>
 
-                  {/* TERMS */}
                   <div className="form-control">
                     <label className="label cursor-pointer justify-start gap-2">
                       <input type="checkbox" className="checkbox checkbox-sm" required />
                       <span className="text-xs leading-tight">
                         I agree to the{" "}
-                        <span className="text-primary hover:underline">terms of service</span>{" "}
-                        and{" "}
+                        <span className="text-primary hover:underline">terms of service</span> and{" "}
                         <span className="text-primary hover:underline">privacy policy</span>
                       </span>
                     </label>
                   </div>
                 </div>
 
-                <button
-                  className="btn btn-primary w-full rounded-sm bg-green-300 hover:bg-green-400 shadow-sm hover:shadow-lg"
-                  type="submit"
-                  disabled={isPending}
-                >
+                <button className="btn btn-primary w-full rounded-sm bg-green-300 hover:bg-green-400 shadow-sm hover:shadow-lg" type="submit">
                   {isPending ? (
                     <>
                       <span className="loading loading-spinner loading-xs"></span>
@@ -336,10 +139,7 @@ const SignUpPage = () => {
                 <div className="text-center mt-4">
                   <p className="text-sm">
                     Already have an account?{" "}
-                    <Link
-                      to="/login"
-                      className="hover:underline text-black hover:text-blue-500 transition-colors duration-300"
-                    >
+                    <Link to="/login" className="hover:underline text-black hover:text-blue-500 transition-colors duration-300">
                       Log In
                     </Link>
                   </p>
@@ -352,17 +152,13 @@ const SignUpPage = () => {
         {/* SIGNUP FORM - RIGHT SIDE */}
         <div className="hidden lg:flex w-full lg:w-1/2 bg-primary/10 items-center justify-center">
           <div className="max-w-md p-8">
+            {/* Illustration */}
             <div className="relative aspect-square max-w-sm mx-auto">
-              <img
-                src="/i.png"
-                alt="Language connection illustration"
-                className="w-full h-full"
-              />
+              <img src="/i.png" alt="Language connection illustration" className="w-full h-full" />
             </div>
+
             <div className="text-center space-y-3 mt-6">
-              <h2 className="text-xl font-semibold">
-                Connect with language partners worldwide
-              </h2>
+              <h2 className="text-xl font-semibold">Connect with language partners worldwide</h2>
               <p className="opacity-70">
                 Practice conversations, make friends, and improve your language skills together
               </p>
@@ -375,3 +171,6 @@ const SignUpPage = () => {
 };
 
 export default SignUpPage;
+
+
+
