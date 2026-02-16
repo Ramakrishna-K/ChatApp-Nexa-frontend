@@ -80,7 +80,8 @@
 //   const response = await axiosInstance.get("/chat/token");
 
 
-
+//   return response.data;
+// }
 
 import { axiosInstance } from "./axios";
 
@@ -167,7 +168,6 @@ export async function getStreamToken() {
 
 
 
-//   return response.data;
-// }
+
 
 
