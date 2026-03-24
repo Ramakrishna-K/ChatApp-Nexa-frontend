@@ -18,7 +18,7 @@ import axios from "axios";
 
 export const axiosInstance = axios.create({
   baseURL: "https://chatapp-backend-bpp7.onrender.com/api",
-  withCredentials: false, // set true only if using cookies
+  withCredentials: true, // set true only if using cookies
 });
 
 /* ======================
